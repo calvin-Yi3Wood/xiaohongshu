@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小红书文案优化助手 - 小雯儿专用版</title>
+    <!-- 引入Google字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入动画库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary-color: #ff2c55;
+            --primary-light: #ff5777;
+            --primary-dark: #e01d48;
+            --secondary-color: #fef6f6;
+            --text-color: #333;
+            --text-light: #666;
+            --shadow: 0 10px 30px rgba(255, 44, 85, 0.1);
+            --gradient: linear-gradient(135deg, #ff2c55, #ff8a8a);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .watermark {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 14px;
+            color: rgba(255, 44, 85, 0.3);
+            font-weight: 700;
+            transform: rotate(-15deg);
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 150px;
+            opacity: 0.3;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            position: relative;
+        }
+        
+        .version-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        .exclusive-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        
+        .section {
+            padding: 30px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-right: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 44, 85, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transition: all 0.6s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 44, 85, 0.4);
+        }
+        
+        .btn:hover::after {
+            left: 100%;
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        select, textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+        
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(255, 87, 119, 0.2);
+            background-color: #fff;
+        }
+        
+        textarea {
+            min-height: 180px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+        
+        .result {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            white-space: pre-wrap;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 7px 15px;
+            background-color: #ffeaed;
+            color: var(--primary-color);
+            border-radius: 30px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(255, 44, 85, 0.1);
+        }
+        
+        .tag:hover {
+            background-color: var(--primary-light);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 44, 85, 0.2);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .copy-btn {
+            padding: 8px 15px;
+            background-color: #fff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .copy-btn i {
+            margin-right: 5px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 44, 85, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                border-radius: 15px;
+            }
+            
+            header {
+                padding: 20px 15px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+                display: block;
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+        
+        /* 浮动效果 */
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* 输入框焦点效果 */
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .input-container label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            font-size: 0.9rem;
+        }
+        
+        .input-container select:focus + label,
+        .input-container textarea:focus + label,
+        .input-container select:valid + label,
+        .input-container textarea:valid + label {
+            top: -10px;
+            left: 10px;
+            font-size: 0.8rem;
+            background-color: white;
+            padding: 0 5px;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="watermark">小雯儿专用</div>
+        
+        <header>
+            <div class="exclusive-tag animate__animated animate__fadeInRight">小雯儿专用版</div>
+            <h1 class="animate__animated animate__fadeInDown">小红书文案优化助手 <span class="version-badge">高级版</span></h1>
+            <p class="animate__animated animate__fadeInUp">自动生成符合小红书算法推荐规则的爆款高质量文案</p>
+        </header>
+
+        <div class="section animate__animated animate__fadeIn">
+            <h2 class="section-title"><i class="fas fa-magic"></i> 选择功能</h2>
+            <button class="btn float" onclick="showSection('generate')">
+                <i class="fas fa-pen-fancy"></i> 生成新文案
+            </button>
+            <button class="btn float" style="animation-delay: 0.2s" onclick="showSection('optimize')">
+                <i class="fas fa-wand-magic-sparkles"></i> 优化现有文案
+            </button>
+        </div>
+
+        <div id="generate-section" class="section hidden">
+            <h2 class="section-title"><i class="fas fa-pen-fancy"></i> 生成新文案</h2>
+            <div class="input-container">
+                <select id="problem-type" required>
+                    <option value="" disabled selected></option>
+                    <option value="上火">上火</option>
+                    <option value="虚火">虚火</option>
+                    <option value="上热下寒">上热下寒</option>
+                    <option value="手脚冰凉">手脚冰凉</option>
+                    <option value="睡不好">睡不好</option>
+                    <option value="失眠">失眠</option>
+                    <option value="气血不足">气血不足</option>
+                    <option value="脾胃不好">脾胃不好</option>
+                    <option value="掉发">掉发</option>
+                    <option value="口腔溃疡">口腔溃疡</option>
+                    <option value="便秘">便秘</option>
+                    <option value="口干舌燥">口干舌燥</option>
+                    <option value="头晕目眩">头晕目眩</option>
+                </select>
+                <label for="problem-type">选择问题症状</label>
+            </div>
+
+            <button class="btn" onclick="generateContent()">
+                <i class="fas fa-wand-magic-sparkles"></i> 生成文案
+            </button>
+            
+            <div id="loading-generate" class="loading hidden">
+                <div class="spinner"></div>
+                <p>正在生成精美文案，请稍候...</p>
+            </div>
+            
+            <div id="result-container" class="hidden">
+                <h3 class="section-title">生成结果</h3>
+                
+                <div>
+                    <div class="result-header">
+                        <h4><i class="fas fa-heading"></i> 标题</h4>
+                        <button class="copy-btn" onclick="copyText('title-result')">
+                            <i class="fas fa-copy"></i> 复制标题
+                        </button>
+                    </div>
+                    <div id="title-result" class="result"></div>
+                </div>
+                
+                <div>
+                    <div class="result-header">
+                        <h4><i class="fas fa-tags"></i> 标签</h4>
+                        <button class="copy-btn" onclick="copyText('tags-result', true)">
+                            <i class="fas fa-copy"></i> 复制标签
+                        </button>
+                    </div>
+                    <div id="tags-result"></div>
+                </div>
+                
+                <div>
+                    <div class="result-header">
+                        <h4><i class="fas fa-file-alt"></i> 正文内容</h4>
+                        <button class="copy-btn" onclick="copyText('content-result')">
+                            <i class="fas fa-copy"></i> 复制正文
+                        </button>
+                    </div>
+                    <div id="content-result" class="result"></div>
+                </div>
+                
+                <button class="btn" onclick="copyFullContent()">
+                    <i class="fas fa-copy"></i> 一键复制全部内容
+                </button>
+            </div>
+        </div>
+
+        <div id="optimize-section" class="section hidden">
+            <h2 class="section-title"><i class="fas fa-wand-magic-sparkles"></i> 优化现有文案</h2>
+            <div class="input-container">
+                <textarea id="existing-content" required></textarea>
+                <label for="existing-content">粘贴您的文案内容</label>
+            </div>
+            
+            <button class="btn" onclick="optimizeContent()">
+                <i class="fas fa-wand-magic-sparkles"></i> 优化文案
+            </button>
+            
+            <div id="loading-optimize" class="loading hidden">
+                <div class="spinner"></div>
+                <p>正在优化文案，增加权重关键词，请稍候...</p>
+            </div>
+            
+            <div id="optimize-result-container" class="hidden">
+                <h3 class="section-title">优化结果</h3>
+                <div id="optimized-content" class="result"></div>
+                <button class="copy-btn" onclick="copyText('optimized-content')">
+                    <i class="fas fa-copy"></i> 复制优化后的文案
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 小红书文案生成器的核心数据
+        const coreData = {
+            keywords: {
+                '黑豆/黑豆水': ['黑豆', '黑豆水', '黑色食材', '黑豆煮水', '黑豆茶'],
+                '鸡蛋茶': ['鸡蛋茶', '朱雀汤', '打散的鸡蛋', '冲鸡蛋', '鸡蛋花'],
+                '问题症状': ['上火', '虚火', '上热下寒', '手脚冰凉', '睡不好', '失眠', '气血不足', 
+                        '脾胃不好', '掉发', '口腔溃疡', '便秘', '口干舌燥', '头晕目眩'],
+                '功效关键词': ['补气血', '引火下行', '滋阴润燥', '滋阴养性', '健脾胃', '养肾', 
+                         '温肾暖胃', '清内热', '养阴安燥'],
+                '材料关键词': ['淮山', '山药', '红枣', '红糖', '香油', '白胡椒', '当归', '黄芪', 
+                         '枸杞', '桂圆', '莲子', '薏米', '酒酿', '苹果', '赤小豆', '绿豆',
+                         '核桃', '黑芝麻', '姜片'],
+                '中医理论': ['脾胃为后天之本', '肾为先天之本', '气血生化之源', '阴阳平衡', 
+                        '虚不受补', '引火归元', '脾胃不好，百病易生']
+            },
+            tagTemplates: {
+                'core': ['养生', '黑豆水', '鸡蛋茶', '朱雀汤', '养生茶'],
+                'problem': ['上热下寒', '补气血', '脾胃', '睡眠', '气血不足', '黑色养生食材'],
+                'effect': ['引火下行', '健脾胃', '滋阴润燥', '养生日常', '冬藏'],
+                'material': ['淮山', '红枣', '当归', '黄芪', '黑豆'],
+                'trending': ['养生打卡', '我的养生仪式感', '正式确诊为健康人', '健康养生']
+            },
+            recipeMapping: {
+                "上火": ["黑豆绿豆", "黑豆淮山", "黑豆苹果"],
+                "虚火": ["黑豆淮山", "黑豆赤小豆", "黑豆红枣"],
+                "上热下寒": ["黑豆桂皮", "黑豆羊肉", "黑豆淮山"],
+                "手脚冰凉": ["黑豆桂皮", "黑豆醪糟", "黑豆羊肉"],
+                "睡不好": ["黑豆莲子", "黑豆酸枣仁", "黑豆红枣"],
+                "失眠": ["黑豆酸枣仁", "黑豆红枣", "黑豆莲子"],
+                "气血不足": ["当归黄芪黑豆", "黑豆枸杞", "黑豆红枣"],
+                "脾胃不好": ["黑豆山药小米", "黑豆淮山米汤", "黑豆南瓜"],
+                "掉发": ["黑豆核桃", "黑豆枸杞", "当归黄芪黑豆"],
+                "口腔溃疡": ["黑豆绿豆", "黑豆淮山", "黑豆赤小豆"],
+                "便秘": ["黑豆薏米", "黑豆赤小豆", "黑豆南瓜"],
+                "口干舌燥": ["黑豆淮山", "黑豆苹果", "黑豆绿豆"],
+                "头晕目眩": ["当归黄芪黑豆", "黑豆枸杞", "黑豆红枣桂圆"]
+            },
+            templateIntro: [
+                "大家好，我是{年龄}岁的养生博主{博主名}，今天要跟大家分享我坚持喝了{坚持时间}的黑豆鸡蛋茶！",
+                "{问题症状}困扰你很久了吗？我曾经也是，直到我发现了这个神奇的黑豆鸡蛋茶配方！",
+                "冬天一补就{问题症状}的，一定要喝这个黑豆水鸡蛋茶！今天分享{配方数量}款不同配方！",
+                "学养生后才知道，这么多年的黑豆都白吃了！现在教你{配方数量}种正确吃法，解决{问题症状}问题！",
+                "如果你经常{问题症状}，不妨试试这个我用了{坚持时间}的黑豆鸡蛋茶，简直太神奇了！"
+            ],
+            templateTheory: [
+                "{中医理论}，黑豆色黑属水，被称为\"肾之骨\"，身体里津液足，{问题症状}自然就能解决。",
+                "老话说\"{中医理论}\"，很多人不知道黑豆是天然的养生食材，配上鸡蛋简直就是{功效关键词}的神仙搭配！",
+                "中医讲究\"以黑补黑\"，黑豆入肾，鸡蛋滋阴，两者一起煮水{功效关键词}的效果翻倍！",
+                "我从{年龄-10}岁开始喝黑豆水，到现在{年龄}岁，{问题症状}的问题完全消失了！关键是方法对！"
+            ],
+            titleTemplates: [
+                "从{问题症状}到气色翻涌！{数量}款黑豆鸡蛋茶配方大公开",
+                "黑豆还有这个妙用？{数量}款配方专治{问题症状}",
+                "{问题症状}终于好了！{数量}天喝黑豆鸡蛋茶的惊人变化",
+                "解锁黑豆{数量}种吃法，专治{问题症状}不上火",
+                "不花一分冤枉钱！自制黑豆鸡蛋茶{数量}款配方治愈{问题症状}",
+                "{数量}款黑豆鸡蛋茶配方|坚持一个月{问题症状}竟然消失了！",
+                "学养生后才知道，黑豆原来可以这样吃！{数量}种配方解决{问题症状}"
+            ],
+            effectTemplates: [
+                "睡眠更踏实，不再半夜醒来",
+                "手脚不再冰凉，气血上升",
+                "皮肤状态改善，气色红润",
+                "精力充沛，头脑清晰",
+                "脸色不黄了，整个气血翻涌",
+                "口腔溃疡明显减少",
+                "脾胃消化功能增强",
+                "大便顺畅，排便规律",
+                "掉发量明显减少",
+                "眼睛不干涩了，看东西更清晰"
+            ],
+            bloggerNames: ["小七", "芊芊", "苗苗", "小叶", "小瑜", "香香姐", "小厨"]
+        };
+
+        // 工具函数
+        function randomPick(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        // 显示动画效果
+        function fadeIn(element) {
+            element.style.opacity = 0;
+            element.classList.remove('hidden');
+            
+            let opacity = 0;
+            const timer = setInterval(() => {
+                if (opacity >= 1) {
+                    clearInterval(timer);
+                    return;
+                }
+                opacity += 0.1;
+                element.style.opacity = opacity;
+            }, 30);
+        }
+
+        function showSection(sectionId) {
+            // 隐藏所有section
+            document.getElementById('generate-section').classList.add('hidden');
+            document.getElementById('optimize-section').classList.add('hidden');
+            
+            // 显示选定的section并添加动画
+            const section = document.getElementById(sectionId + '-section');
+            section.classList.remove('hidden');
+            section.classList.add('fade-in');
+            
+            // 重置表单和结果
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('optimize-result-container').classList.add('hidden');
+        }
+
+        // 生成随机年龄 (30-45岁)
+        function generateRandomAge() {
+            return Math.floor(Math.random() * 16) + 30;
+        }
+
+        // 生成随机坚持时间
+        function generateRandomTime() {
+            const units = ["天", "个月", "年"];
+            const unit = randomPick(units);
+            
+            if (unit === "天") {
+                return Math.floor(Math.random() * 80 + 21) + unit;
+            } else if (unit === "个月") {
+                return Math.floor(Math.random() * 24 + 1) + unit;
+            } else {
+                return Math.floor(Math.random() * 5 + 1) + unit;
+            }
+        }
+
+        // 生成标签
+        function generateTags(problemType) {
+            let tags = [];
+            
+            // 添加2-3个核心标签
+            const coreTagCount = Math.min(3, coreData.tagTemplates.core.length);
+            const shuffledCoreTags = [...coreData.tagTemplates.core].sort(() => 0.5 - Math.random());
+            tags = tags.concat(shuffledCoreTags.slice(0, coreTagCount));
+            
+            // 添加1-2个问题标签
+            const problemTagCount = Math.min(2, coreData.tagTemplates.problem.length);
+            const shuffledProblemTags = [...coreData.tagTemplates.problem].sort(() => 0.5 - Math.random());
+            tags = tags.concat(shuffledProblemTags.slice(0, problemTagCount));
+            
+            // 添加1个功效标签
+            tags.push(randomPick(coreData.tagTemplates.effect));
+            
+            // 添加1个材料标签
+            tags.push(randomPick(coreData.tagTemplates.material));
+            
+            // 添加1个流行标签
+            tags.push(randomPick(coreData.tagTemplates.trending));
+            
+            // 确保标签数量不超过8个
+            return tags.slice(0, 8);
+        }
+
+        // 生成文案内容
+        function generateContent() {
+            // 显示加载状态
+            document.getElementById('loading-generate').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+            
+            // 获取选择的问题类型
+            const problemType = document.getElementById('problem-type').value;
+            
+            if (!problemType) {
+                alert('请选择一个问题症状！');
+                document.getElementById('loading-generate').classList.add('hidden');
+                return;
+            }
+            
+            // 模拟异步生成内容
+            setTimeout(() => {
+                const recipeTypes = coreData.recipeMapping[problemType] || ["黑豆淮山", "黑豆红枣", "黑豆醪糟"];
+                const bloggerName = randomPick(coreData.bloggerNames);
+                const age = generateRandomAge();
+                const persistenceTime = generateRandomTime();
+                
+                // 生成标题
+                const titleTemplate = randomPick(coreData.titleTemplates);
+                const title = titleTemplate
+                    .replace("{问题症状}", problemType)
+                    .replace("{数量}", recipeTypes.length);
+                
+                // 生成标签
+                const tags = generateTags(problemType);
+                const tagsText = tags.map(tag => `#${tag}`).join(" ");
+                
+                // 生成引言
+                const introTemplate = randomPick(coreData.templateIntro);
+                const intro = introTemplate
+                    .replace("{年龄}", age)
+                    .replace("{博主名}", bloggerName)
+                    .replace("{坚持时间}", persistenceTime)
+                    .replace("{问题症状}", problemType)
+                    .replace("{配方数量}", recipeTypes.length);
+                
+                // 生成理论解释部分
+                const theoryTemplate = randomPick(coreData.templateTheory);
+                const theory = theoryTemplate
+                    .replace("{中医理论}", randomPick(coreData.keywords['中医理论']))
+                    .replace("{问题症状}", problemType)
+                    .replace("{功效关键词}", randomPick(coreData.keywords['功效关键词']))
+                    .replace("{年龄}", age)
+                    .replace("{年龄-10}", age - 10);
+                
+                // 更详细的配方内容
+                let recipesContent = "";
+                recipeTypes.forEach((recipeType, index) => {
+                    // 随机选择材料
+                    const materials = ["黑豆", ...randomPick(coreData.keywords['材料关键词'].slice(0, 5)).split(', ')];
+                    const amounts = materials.map(() => Math.floor(Math.random() * 20) + 10);
+                    
+                    recipesContent += `【配方${index + 1}：${recipeType}鸡蛋茶】\n\n`;
+                    recipesContent += `专治：${problemType}\n\n`;
+                    recipesContent += `材料：\n`;
+                    materials.forEach((material, i) => {
+                        recipesContent += `- ${material} ${amounts[i]}克\n`;
+                    });
+                    recipesContent += `- 鸡蛋 1个\n\n`;
+                    
+                    recipesContent += `制作步骤：\n`;
+                    recipesContent += `1. 将${materials.join('、')}洗净，加水煮开\n`;
+                    recipesContent += `2. 转小火煮${Math.floor(Math.random() * 20) + 10}分钟（一定要煮透）\n`;
+                    recipesContent += `3. 碗里打散一个鸡蛋\n`;
+                    recipesContent += `4. 将煮好的黑豆水沿碗边慢慢倒入，边倒边轻轻搅动\n`;
+                    recipesContent += `5. 加入适量调味品调味即可食用\n\n`;
+                    
+                    const effect = randomPick(coreData.effectTemplates);
+                    recipesContent += `这款特别适合${problemType}的人，${randomPick(coreData.keywords['功效关键词'])}效果明显，喝完${effect.toLowerCase()}。\n\n`;
+                });
+                
+                // 生成结语
+                const outro = `坚持喝一个月，你会发现：\n- ${randomPick(coreData.effectTemplates)}\n- ${randomPick(coreData.effectTemplates)}\n- ${randomPick(coreData.effectTemplates)}\n\n${randomPick(coreData.keywords['中医理论'])}，希望这个简单的食疗方子能帮到你！`;
+                
+                // 组装完整内容
+                const fullContent = `${title}\n\n${tagsText}\n\n${intro}\n\n${theory}\n\n${recipesContent}${outro}\n\n我是${bloggerName}，关注我，教你更多不花冤枉钱的养生小妙招！`;
+                
+                // 显示结果
+                document.getElementById('title-result').textContent = title;
+                
+                // 显示标签
+                const tagsContainer = document.getElementById('tags-result');
+                tagsContainer.innerHTML = '';
+                tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'tag';
+                    tagElement.textContent = '#' + tag;
+                    tagsContainer.appendChild(tagElement);
+                    
+                    // 添加动画延迟
+                    setTimeout(() => {
+                        tagElement.classList.add('fade-in');
+                    }, Math.random() * 500);
+                });
+                
+                document.getElementById('content-result').textContent = fullContent;
+                
+                // 隐藏加载状态，显示结果
+                document.getElementById('loading-generate').classList.add('hidden');
+                fadeIn(document.getElementById('result-container'));
+            }, 1500); // 模拟生成时间
+        }
+
+        // 优化现有文案
+        function optimizeContent() {
+            // 显示加载状态
+            document.getElementById('loading-optimize').classList.remove('hidden');
+            document.getElementById('optimize-result-container').classList.add('hidden');
+            
+            // 获取用户输入的内容
+            const content = document.getElementById('existing-content').value;
+            
+            if (!content) {
+                alert('请先输入需要优化的文案内容！');
+                document.getElementById('loading-optimize').classList.add('hidden');
+                return;
+            }
+            
+            // 模拟异步优化内容
+            setTimeout(() => {
+                // 增强的优化：添加随机关键词短语和表情符号
+                let optimizedContent = content;
+                
+                // 添加4-5个随机关键词短语
+                const phrasesToAdd = Math.floor(Math.random() * 2) + 4;
+                
+                for (let i = 0; i < phrasesToAdd; i++) {
+                    const categoryKeys = Object.keys(coreData.keywords);
+                    const randomCategory = randomPick(categoryKeys);
+                    const randomKeyword = randomPick(coreData.keywords[randomCategory]);
+                    
+                    const phrases = [
+                        `记住，${randomKeyword}是非常重要的哦～`,
+                        `别忘了${randomKeyword}的神奇作用呢！`,
+                        `${randomKeyword}的效果真的很显著✨`,
+                        `很多人不知道${randomKeyword}的重要性🔍`,
+                        `我最近才发现${randomKeyword}的秘密💯`,
+                        `${randomKeyword}真的是养生必备！`,
+                        `囤货必备：${randomKeyword}💕`
+                    ];
+                    const phrase = randomPick(phrases);
+                    
+                    // 在内容的随机位置插入短语
+                    const contentParagraphs = optimizedContent.split('\n\n');
+                    if (contentParagraphs.length > 2) {
+                        // 选择一个段落（不是第一段也不是最后一段）
+                        const paragraphIndex = Math.floor(Math.random() * (contentParagraphs.length - 2)) + 1;
+                        const paragraph = contentParagraphs[paragraphIndex];
+                        
+                        // 在段落的随机位置插入
+                        const insertPos = Math.floor(Math.random() * (paragraph.length - 10)) + 5;
+                        const newParagraph = paragraph.substring(0, insertPos) + " " + phrase + " " + paragraph.substring(insertPos);
+                        contentParagraphs[paragraphIndex] = newParagraph;
+                        
+                        optimizedContent = contentParagraphs.join('\n\n');
+                    } else {
+                        // 如果段落不够，就在内容的随机位置插入
+                        const insertPos = Math.floor(Math.random() * (optimizedContent.length / 2)) + (optimizedContent.length / 4);
+                        optimizedContent = optimizedContent.substring(0, insertPos) + " " + phrase + " " + optimizedContent.substring(insertPos);
+                    }
+                }
+                
+                // 添加表情符号
+                const emojis = ['✨', '💯', '🔥', '👍', '💪', '❤️', '🙏', '🌿', '🍃', '🍵', '🌱', '💕', '🌟'];
+                optimizedContent = optimizedContent.replace(/！/g, '！' + randomPick(emojis));
+                optimizedContent = optimizedContent.replace(/。/g, '。' + randomPick(emojis));
+                
+                // 显示优化结果
+                document.getElementById('optimized-content').textContent = optimizedContent;
+                
+                // 隐藏加载状态，显示结果
+                document.getElementById('loading-optimize').classList.add('hidden');
+                fadeIn(document.getElementById('optimize-result-container'));
+            }, 2000); // 模拟优化时间
+        }
+
+        // 复制文本函数
+        function copyText(elementId, isTagContainer = false) {
+            let textToCopy;
+            
+            if (isTagContainer) {
+                const tags = document.getElementById(elementId).querySelectorAll('.tag');
+                textToCopy = Array.from(tags).map(tag => tag.textContent).join(' ');
+            } else {
+                textToCopy = document.getElementById(elementId).textContent;
+            }
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // 创建一个临时提示
+                const tooltip = document.createElement('div');
+                tooltip.textContent = '✓ 复制成功';
+                tooltip.style.position = 'fixed';
+                tooltip.style.top = '20px';
+                tooltip.style.left = '50%';
+                tooltip.style.transform = 'translateX(-50%)';
+                tooltip.style.padding = '10px 20px';
+                tooltip.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                tooltip.style.color = 'white';
+                tooltip.style.borderRadius = '30px';
+                tooltip.style.zIndex = '1000';
+                tooltip.style.opacity = '0';
+                tooltip.style.transition = 'opacity 0.3s';
+                
+                document.body.appendChild(tooltip);
+                
+                // 显示提示
+                setTimeout(() => {
+                    tooltip.style.opacity = '1';
+                }, 10);
+                
+                // 隐藏并移除提示
+                setTimeout(() => {
+                    tooltip.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(tooltip);
+                    }, 300);
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败: ', err);
+                alert('复制失败，请手动复制。');
+            });
+        }
+
+        // 复制全部内容
+        function copyFullContent() {
+            const content = document.getElementById('content-result').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                // 创建一个临时提示
+                const tooltip = document.createElement('div');
+                tooltip.textContent = '✓ 全部内容复制成功';
+                tooltip.style.position = 'fixed';
+                tooltip.style.top = '20px';
+                tooltip.style.left = '50%';
+                tooltip.style.transform = 'translateX(-50%)';
+                tooltip.style.padding = '10px 20px';
+                tooltip.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                tooltip.style.color = 'white';
+                tooltip.style.borderRadius = '30px';
+                tooltip.style.zIndex = '1000';
+                tooltip.style.opacity = '0';
+                tooltip.style.transition = 'opacity 0.3s';
+                
+                document.body.appendChild(tooltip);
+                
+                // 显示提示
+                setTimeout(() => {
+                    tooltip.style.opacity = '1';
+                }, 10);
+                
+                // 隐藏并移除提示
+                setTimeout(() => {
+                    tooltip.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(tooltip);
+                    }, 300);
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败: ', err);
+                alert('复制失败，请手动复制。');
+            });
+        }
+        
+        // 添加页面动画
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置水印动画
+            setInterval(() => {
+                const watermark = document.querySelector('.watermark');
+                watermark.style.opacity = Math.random() * 0.2 + 0.1;
+            }, 2000);
+            
+            // 为标签添加随机延迟的动画
+            const addHoverEffects = () => {
+                const tags = document.querySelectorAll('.tag');
+                tags.forEach(tag => {
+                    tag.addEventListener('mouseover', function() {
+                        this.style.transform = `translateY(-5px) rotate(${Math.random() * 5 - 2.5}deg)`;
+                    });
+                    
+                    tag.addEventListener('mouseout', function() {
+                        this.style.transform = 'translateY(0) rotate(0deg)';
+                    });
+                });
+            };
+            
+            // 监听DOM变化以添加效果到新生成的标签
+            const observer = new MutationObserver(addHoverEffects);
+            observer.observe(document.body, { childList: true, subtree: true });
+            
+            // 初始化效果
+            addHoverEffects();
+        });
+    </script>
+</body>
+</html> 
